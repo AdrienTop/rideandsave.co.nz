@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="en-NZ">
 <head>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBG4GTP3SW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  
+  // 1. Set default consent to 'denied' so no cookies are dropped
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied'
+  });
+
+  gtag('js', new Date());
+
+  // 2. Disable storage explicitly for maximum privacy/no-banner safety
+  gtag('config', 'G-LBG4GTP3SW', {
+    'client_storage': 'none',
+    'anonymize_ip': true
+  });
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NZ Vehicle Fuel Consumption Data — Official vs Real-world | Ride &amp; Save</title>
@@ -98,15 +119,15 @@
   /* Fuel type sub-header rows within tables */
   .fuel-header-row td { background:#f8fffe; border-bottom:1px solid #e2e8f0; padding:.45rem 1rem; }
   .fuel-section-label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; display:flex; align-items:center; gap:.5rem; }
-  .fsl-petrol { color:#0d7a44; }
+  .fsl-petrol { color:#1d4ed8; }
   .fsl-diesel { color:#b07d10; }
-  .fsl-electric { color:#1d4ed8; }
+  .fsl-electric { color:#0d7a44; }
   .fsl-hybrid { color:#6d28d9; }
 
   .fuel-badge { display:inline-block; font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; padding:2px 7px; border-radius:20px; }
-  .badge-petrol { background:rgba(26,158,92,.1); color:#0d7a44; }
+  .badge-petrol { background:rgba(29,78,216,.1); color:#1d4ed8; }
   .badge-diesel { background:rgba(232,161,42,.12); color:#b07d10; }
-  .badge-electric { background:rgba(59,130,246,.1); color:#1d4ed8; }
+  .badge-electric { background:rgba(26,158,92,.1); color:#0d7a44; }
   .badge-hybrid { background:rgba(109,40,217,.08); color:#6d28d9; }
 
   .disclaimer { background:rgba(232,161,42,.07); border:1px solid rgba(232,161,42,.25); border-radius:12px; padding:1rem 1.3rem; font-size:.82rem; color:var(--grey-mid); margin-bottom:2.5rem; line-height:1.65; }
@@ -119,14 +140,15 @@
     .method-grid { grid-template-columns:1fr; }
     .data-table td, .data-table th { padding:.5rem .6rem; font-size:.78rem; }
     .cat-avg { margin-left:0; }
+    .fuel-section-label { font-size:.6rem; letter-spacing:.5px; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">Ride<span>&</span>Save</div>
-  <a href="bike-savings-calculator.html" class="back-link">← Back to calculator</a>
+  <a href="/" style="text-decoration:none"><div class="logo">Ride<span>&</span>Save</div></a>
+  <a href="/" class="back-link">← Back to calculator</a>
 </header>
 
 <div class="hero">
@@ -332,7 +354,7 @@
   Official fuel consumption figures from <a href="https://www.nzta.govt.nz/resources/new-zealand-motor-vehicle-register-statistics/new-zealand-vehicle-fleet-open-data-sets" target="_blank">NZTA Vehicle Fleet Open Data</a> (FC_COMBINED, 2021–2026 registrations).
   Real-world estimates based on <a href="https://climate.ec.europa.eu/news-other-reads/news/first-commission-report-real-world-co2-emissions-cars-and-vans-using-data-board-fuel-consumption-2024-03-18_en" target="_blank">EU Commission OBFCM report (March 2024)</a>: +23.7% petrol, +18.1% diesel, 600,000 vehicles.
   EV kWh figures from manufacturer WLTP specifications. For indicative purposes only. Last reviewed March 2026.<br>
-  <a href="bike-savings-calculator.html">← Back to calculator</a>
+  <a href="/">← Back to calculator</a>
 </footer>
 
 </body>
