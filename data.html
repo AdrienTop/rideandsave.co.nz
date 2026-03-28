@@ -107,7 +107,7 @@
   .data-table tbody tr:last-child { border-bottom:none; }
   .data-table tbody tr:hover { background:#f8fffe; }
   .data-table td { padding:.7rem 1rem; font-size:.88rem; color:var(--grey-mid); vertical-align:middle; }
-  .td-model { font-weight:600; color:var(--black); }
+  .td-model { font-weight:550; color:var(--black); }
   .td-year { font-size:.75rem; color:var(--grey-light); display:block; margin-top:1px; }
   .td-num { text-align:center; font-weight:600; }
   .td-official { color:var(--grey-mid); }
@@ -166,7 +166,7 @@
     <div class="method-box">
       <h3>Where this data comes from</h3>
       <p>
-        Vehicle rankings and fuel consumption figures come from the <strong>NZTA Vehicle Fleet Open Data</strong> (2021–2026), which records every vehicle registered in New Zealand. Each model's figure is the <strong>average FC_COMBINED value</strong> across all new registrations of that model from 2021 to 2026 — covering multiple variants and model years. Models are ranked by total NZ registration count.
+        Vehicle rankings and fuel consumption figures come from the <strong>NZTA Vehicle Fleet Open Data</strong> (2021–2026), which records every vehicle registered in New Zealand. Each model's figure is the <strong>average fuel consumption value</strong> across all new registrations of that model from 2021 to 2026 — covering multiple variants and model years. Models are ranked by total NZ registration count.
       </p>
     </div>
     <div class="method-box">
@@ -176,10 +176,6 @@
         <a href="https://climate.ec.europa.eu/news-other-reads/news/first-commission-report-real-world-co2-emissions-cars-and-vans-using-data-board-fuel-consumption-2024-03-18_en" target="_blank">→ EU Commission OBFCM Report (March 2024)</a>
       </p>
     </div>
-  </div>
-
-  <div class="disclaimer">
-    <strong>⚠️ Note:</strong> Official figures are from NZTA Vehicle Fleet Open Data (FC_COMBINED), averaged across all registered vehicles of each model. Real-world estimates apply +23.7% for petrol and +18.1% for diesel, based on the EU Commission's mandatory on-board monitoring data (2021, 600,000 vehicles). Your actual consumption will vary with driving style, load, terrain, and climate. EV figures use manufacturer-declared WLTP kWh/100km (no NZTA consumption data available for EVs).
   </div>
 
   <!-- SMALL CARS -->
@@ -199,7 +195,7 @@
         <tr><td class="td-model">MG 3<span class="td-year">3,267 NZ registrations</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">6.6</td><td class="td-num td-real">8.2</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">Mazda 2<span class="td-year">1,840 NZ registrations</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">5.2</td><td class="td-num td-real">6.4</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">Kia Rio<span class="td-year">1,135 NZ registrations</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">5.9</td><td class="td-num td-real">7.3</td><td class="td-diff td-diff-petrol">+24%</td></tr>
-        <tr><td class="td-model">Toyota Yaris<span class="td-year">969 NZ registrations — most NZ Yaris are now the hybrid version</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">4.9</td><td class="td-num td-real">6.1</td><td class="td-diff td-diff-petrol">+24%</td></tr>
+        <tr><td class="td-model">Toyota Yaris<span class="td-year">969 NZ registrations <br> Most NZ Yaris are now the hybrid version</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">4.9</td><td class="td-num td-real">6.1</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr class="fuel-header-row"><td colspan="5"><span class="fuel-section-label fsl-diesel">Diesel — no diesel small cars are sold new in NZ (confirmed by NZTA data). Not used in the calculator.</span></td></tr>
       </tbody>
     </table>
@@ -215,7 +211,7 @@
       <thead><tr><th>Model</th><th>Fuel</th><th class="num">Official</th><th class="num">Real-world</th><th class="num">Gap</th></tr></thead>
       <tbody>
         <tr class="fuel-header-row"><td colspan="5"><span class="fuel-section-label fsl-petrol">Petrol — top 5 by NZ registrations (NZTA 2021–2026)</span></td></tr>
-        <tr><td class="td-model">Toyota Corolla<span class="td-year">3,320 NZ registrations — most NZ Corollas are now the hybrid</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">6.0</td><td class="td-num td-real">7.4</td><td class="td-diff td-diff-petrol">+24%</td></tr>
+        <tr><td class="td-model">Toyota Corolla<span class="td-year">3,320 NZ registrations <br> Most NZ Corollas are now the hybrid</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">6.0</td><td class="td-num td-real">7.4</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">Mazda 3<span class="td-year">2,044 NZ registrations</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">6.2</td><td class="td-num td-real">7.7</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">VW Golf<span class="td-year">2,018 NZ registrations</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">6.6</td><td class="td-num td-real">8.2</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">Hyundai i30<span class="td-year">1,181 NZ registrations</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">7.0</td><td class="td-num td-real">8.7</td><td class="td-diff td-diff-petrol">+24%</td></tr>
@@ -280,13 +276,13 @@
       <thead><tr><th>Model</th><th>Fuel</th><th class="num">Official</th><th class="num">Real-world</th><th class="num">Gap</th></tr></thead>
       <tbody>
         <tr class="fuel-header-row"><td colspan="5"><span class="fuel-section-label fsl-diesel">Diesel — top 5 by NZ registrations (NZTA 2021–2026). Diesel dominates NZ ute sales.</span></td></tr>
-        <tr><td class="td-model">Ford Ranger<span class="td-year">52,795 NZ registrations — NZ's #1 best-selling vehicle overall</span></td><td><span class="fuel-badge badge-diesel">Diesel</span></td><td class="td-num td-official">7.7</td><td class="td-num td-real">9.1</td><td class="td-diff td-diff-diesel">+18%</td></tr>
+        <tr><td class="td-model">Ford Ranger<span class="td-year">52,795 NZ registrations <br>NZ's #1 best-selling vehicle overall</span></td><td><span class="fuel-badge badge-diesel">Diesel</span></td><td class="td-num td-official">7.7</td><td class="td-num td-real">9.1</td><td class="td-diff td-diff-diesel">+18%</td></tr>
         <tr><td class="td-model">Toyota Hilux<span class="td-year">26,236 NZ registrations</span></td><td><span class="fuel-badge badge-diesel">Diesel</span></td><td class="td-num td-official">7.8</td><td class="td-num td-real">9.2</td><td class="td-diff td-diff-diesel">+18%</td></tr>
         <tr><td class="td-model">Mitsubishi Triton<span class="td-year">21,889 NZ registrations</span></td><td><span class="fuel-badge badge-diesel">Diesel</span></td><td class="td-num td-official">8.3</td><td class="td-num td-real">9.8</td><td class="td-diff td-diff-diesel">+18%</td></tr>
         <tr><td class="td-model">Nissan Navara<span class="td-year">11,340 NZ registrations</span></td><td><span class="fuel-badge badge-diesel">Diesel</span></td><td class="td-num td-official">7.7</td><td class="td-num td-real">9.1</td><td class="td-diff td-diff-diesel">+18%</td></tr>
         <tr><td class="td-model">Isuzu D-Max<span class="td-year">7,624 NZ registrations</span></td><td><span class="fuel-badge badge-diesel">Diesel</span></td><td class="td-num td-official">7.9</td><td class="td-num td-real">9.3</td><td class="td-diff td-diff-diesel">+18%</td></tr>
         <tr class="fuel-header-row"><td colspan="5"><span class="fuel-section-label fsl-petrol">Petrol — minority of NZ ute sales</span></td></tr>
-        <tr><td class="td-model">Ford Ranger (V6 petrol)<span class="td-year">2,801 NZ registrations — includes Raptor and high-spec variants</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">11.5</td><td class="td-num td-real">14.2</td><td class="td-diff td-diff-petrol">+24%</td></tr>
+        <tr><td class="td-model">Ford Ranger (V6 petrol)<span class="td-year">2,801 NZ registrations <br>Includes Raptor and high-spec variants</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">11.5</td><td class="td-num td-real">14.2</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">Toyota Hilux (petrol)<span class="td-year">735 NZ registrations</span></td><td><span class="fuel-badge badge-petrol">Petrol</span></td><td class="td-num td-official">10.4</td><td class="td-num td-real">12.9</td><td class="td-diff td-diff-petrol">+24%</td></tr>
       </tbody>
     </table>
@@ -319,7 +315,7 @@
       <thead><tr><th>Model</th><th>Fuel</th><th class="num">Official</th><th class="num">Real-world</th><th class="num">Gap</th></tr></thead>
       <tbody>
         <tr class="fuel-header-row"><td colspan="5"><span class="fuel-section-label fsl-hybrid">Petrol hybrid — top 5 by NZ registrations (NZTA 2021–2026)</span></td></tr>
-        <tr><td class="td-model">Toyota RAV4 Hybrid<span class="td-year">36,953 NZ registrations — NZ's most popular hybrid by far</span></td><td><span class="fuel-badge badge-hybrid">Hybrid</span></td><td class="td-num td-official">4.8</td><td class="td-num td-real">5.9</td><td class="td-diff td-diff-petrol">+24%</td></tr>
+        <tr><td class="td-model">Toyota RAV4 Hybrid<span class="td-year">36,953 NZ registrations <br>NZ's most popular hybrid by far</span></td><td><span class="fuel-badge badge-hybrid">Hybrid</span></td><td class="td-num td-official">4.8</td><td class="td-num td-real">5.9</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">Toyota Corolla Hybrid<span class="td-year">8,454 NZ registrations</span></td><td><span class="fuel-badge badge-hybrid">Hybrid</span></td><td class="td-num td-official">4.0</td><td class="td-num td-real">5.0</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">Toyota Yaris Cross Hybrid<span class="td-year">8,096 NZ registrations</span></td><td><span class="fuel-badge badge-hybrid">Hybrid</span></td><td class="td-num td-official">3.7</td><td class="td-num td-real">4.6</td><td class="td-diff td-diff-petrol">+24%</td></tr>
         <tr><td class="td-model">Toyota Highlander Hybrid<span class="td-year">6,224 NZ registrations</span></td><td><span class="fuel-badge badge-hybrid">Hybrid</span></td><td class="td-num td-official">5.6</td><td class="td-num td-real">6.9</td><td class="td-diff td-diff-petrol">+24%</td></tr>
