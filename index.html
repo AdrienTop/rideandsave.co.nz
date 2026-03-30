@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-NZ">
 <head>
-
+<meta name="commission-factory-verification" content="cd5ddccde7f14e1cb61ee2c7227ecde9" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBG4GTP3SW"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -146,6 +146,10 @@
   .commute-label strong { display:block; font-size:.9rem; font-weight:600; color:var(--black); }
   .commute-label span { font-size:.78rem; color:var(--grey-mid); }
 
+  .wfh-row { margin-top:.75rem; padding:.85rem 1.2rem; background:rgba(26,158,92,.05); border:1px solid rgba(26,158,92,.15); border-radius:10px; display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+  .wfh-row .wfh-lbl { font-size:.85rem; font-weight:500; color:var(--grey-mid); flex:1; min-width:160px; }
+  .wfh-row .select-wrap { width:222px; }
+
   /* VEHICLE CARDS */
   .vehicle-grid { display:flex; flex-wrap:wrap; gap:.75rem; margin-bottom:1.2rem; justify-content:center; }
   .v-card { border:2px solid #e2e8f0; border-radius:12px; padding:.85rem .75rem; cursor:pointer; text-align:center; transition:all .15s; background:var(--white); width:158px; flex-shrink:0; }
@@ -186,11 +190,11 @@
   #results { display:none; animation:fadeUp .4s ease; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
 
-  .cost-compare { display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:center; justify-items:center; margin-bottom:1.5rem; max-width:560px; margin-left:auto; margin-right:auto; }
+  .cost-compare { display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:stretch; justify-items:stretch; margin-bottom:1.5rem; max-width:560px; margin-left:auto; margin-right:auto; }
   .cost-side { text-align:center; padding:1.2rem; border-radius:14px; }
   .car-side { background:rgba(224,82,82,.07); border:1.5px solid rgba(224,82,82,.2); }
   .fuel-side { background:rgba(232,161,42,.07); border:1.5px solid rgba(232,161,42,.25); }
-  .c-lbl { font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:#333333; display:block; margin-bottom:.3rem; }
+  .c-lbl { font-size:.8rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:#333333; display:block; margin-bottom:.3rem; }
   .c-ico { font-size:1.6rem; display:block; margin-bottom:.3rem; }
   .c-amt { font-family:'Syne',sans-serif; font-size:1.9rem; font-weight:700; letter-spacing:0; display:block; line-height:1; }
   .car-side .c-amt { color:var(--red); }
@@ -276,6 +280,18 @@
         <span>Doubles distance for a return trip · shows weekly / monthly / yearly savings</span>
       </div>
     </div>
+    <div class="wfh-row" id="wfhRow" style="display:none">
+      <span class="wfh-lbl">🏠 How many days per week do you work from home?</span>
+      <div class="select-wrap">
+        <select id="wfhDays">
+          <option value="0">0 - I commute every day</option>
+          <option value="1">1 day a week WFH</option>
+          <option value="2">2 days a week WFH</option>
+          <option value="3">3 days a week WFH</option>
+          <option value="4">4 days a week WFH</option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <!-- VEHICLE -->
@@ -343,7 +359,7 @@
         <div class="select-wrap">
           <select id="parkingType">
             <option value="per_trip">Per trip / one-way</option>
-            <option value="daily">Daily rate (covers return)</option>
+            <option value="daily" selected>Daily rate (covers return)</option>
             <option value="monthly">Monthly pass</option>
           </select>
         </div>
@@ -351,6 +367,7 @@
     </div>
   </div>
 
+  <div class="err" id="calcErr" style="display:none;margin-bottom:-.5rem"></div>
   <button class="calc-btn" onclick="calculate()">Calculate My Savings</button>
 
   <!-- RESULTS -->
@@ -363,14 +380,14 @@
         <span class="c-lbl">Full car cost</span>
         <span class="c-amt" id="rIrdAmt">—</span>
         <span class="c-per" id="rCarPer">per trip · IRD-rated</span>
-        <span style="display:block;font-size:.8rem;color:rgba(224,82,82,.85);margin-top:.3rem;font-weight:500">incl. depreciation</span>
+        <span style="display:block;font-size:.9rem;color:rgba(224,82,82,.85);margin-top:.3rem;font-weight:500">incl. depreciation</span>
       </div>
       <div class="cost-side fuel-side">
         <span class="c-ico">⛽</span>
-        <span class="c-lbl">Fuel only</span>
+        <span class="c-lbl" id="rFuelLbl" style="text-transform:none">FUEL ONLY</span>
         <span class="c-amt" id="rFuelAmt">—</span>
         <span class="c-per" id="rFuelPer">per trip</span>
-        <span style="display:block;font-size:.8rem;color:rgba(232,161,42,.9);margin-top:.3rem;font-weight:500">no maintenance or depreciation</span>
+        <span style="display:block;font-size:.9rem;color:rgba(232,161,42,.9);margin-top:.3rem;font-weight:500">No maintenance or depreciation</span>
       </div>
     </div>
 
@@ -437,6 +454,7 @@ Object.entries(VD).forEach(([key,d]) => {
 function toggleCommute() {
   isCommute=!isCommute;
   document.getElementById('commuteToggle').classList.toggle('on',isCommute);
+  document.getElementById('wfhRow').style.display=isCommute?'':'none';
 }
 
 function selectVehicle(key) {
@@ -498,10 +516,22 @@ const fmt=n=>'$'+n.toLocaleString('en-NZ',{minimumFractionDigits:2,maximumFracti
 function calculate() {
   document.getElementById('distErr').style.display='none';
   document.getElementById('vehErr').style.display='none';
+  document.getElementById('calcErr').style.display='none';
 
   const distRaw=parseFloat(document.getElementById('distance').value);
-  if(!distRaw||distRaw<=0){document.getElementById('distErr').style.display='block';return;}
-  if(!selCat){document.getElementById('vehErr').style.display='block';return;}
+  const errors=[];
+  if(!distRaw||distRaw<=0) errors.push('distance');
+  if(!selCat) errors.push('vehicle');
+
+  if(errors.length){
+    if(errors.includes('distance')) document.getElementById('distErr').style.display='block';
+    if(errors.includes('vehicle')) document.getElementById('vehErr').style.display='block';
+    const msgs={'distance':'enter a distance','vehicle':'select a vehicle type'};
+    const calcErr=document.getElementById('calcErr');
+    calcErr.textContent='Please '+errors.map(e=>msgs[e]).join(' and ')+' before calculating.';
+    calcErr.style.display='block';
+    return;
+  }
 
   const d=VD[selCat];
   const isEV=selCat==='electric';
@@ -548,6 +578,7 @@ function calculate() {
   // Populate results
   document.getElementById('rIrdAmt').textContent=fmt(irdTotal);
   document.getElementById('rCarPer').textContent=isCommute?'per return trip · IRD-rated':'per trip · IRD-rated';
+  document.getElementById('rFuelLbl').textContent=parking>0?'FUEL + parking':'FUEL ONLY';
   document.getElementById('rFuelAmt').textContent=fmt(fuelOnlyTotal);
   document.getElementById('rFuelPer').textContent=isCommute?'per return trip':'per trip';
   document.getElementById('rSaveAmt').textContent=fmt(irdTotal);
@@ -568,14 +599,19 @@ function calculate() {
   }
 
   // CO2
+  const yearlyTrips=isCommute?((5-(parseInt(document.getElementById('wfhDays').value)||0))*52):260;
   document.getElementById('co2Text').innerHTML=isEV
     ?`Electric vehicles produce no direct tailpipe emissions — biking still reduces road congestion and your household energy footprint.`
-    :`By biking instead, you avoid approximately <strong>${co2kg.toFixed(2)} kg of CO₂</strong> per trip. Over a year of commuting (260 trips) that's <strong>${(co2kg*260/1000).toFixed(1)} tonnes</strong> of CO₂ avoided.`;
+    :`By biking instead, you avoid approximately <strong>${co2kg.toFixed(2)} kg of CO₂</strong> per trip. Over a year (${yearlyTrips} trips) that's <strong>${(co2kg*yearlyTrips/1000).toFixed(1)} tonnes</strong> of CO₂ avoided.`;
 
   // Commute breakdown — uses IRD total as savings
   if(isCommute){
+    const wfhDays=parseInt(document.getElementById('wfhDays').value)||0;
+    const officeDaysPerWeek=5-wfhDays;
+    const officeDaysPerYear=officeDaysPerWeek*52;
+    const officeDaysPerMonth=officeDaysPerYear/12;
     document.getElementById('commuteSection').style.display='';
-    [['bdDay',irdTotal],['bdWk',irdTotal*5],['bdMo',irdTotal*22],['bdYr',irdTotal*260]]
+    [['bdDay',irdTotal],['bdWk',irdTotal*officeDaysPerWeek],['bdMo',irdTotal*officeDaysPerMonth],['bdYr',irdTotal*officeDaysPerYear]]
       .forEach(([id,v])=>document.getElementById(id).textContent=fmt(v));
   } else {
     document.getElementById('commuteSection').style.display='none';
