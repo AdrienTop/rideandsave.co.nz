@@ -468,8 +468,8 @@ function selectVehicle(key) {
     t.classList.toggle('disabled',!d.fuels.includes(f));
     t.classList.toggle('selected',false);
   });
-  // Default fuel
-  if(!d.fuels.includes(selFuel)) selFuel=d.default;
+  // Default fuel — always use the vehicle's own default so the card figure matches the tab
+  selFuel=d.default;
   const defTab=document.querySelector(`.fuel-tab[data-fuel="${selFuel}"]`);
   if(defTab && !defTab.classList.contains('disabled')) defTab.classList.add('selected');
   updateFuelPrice();
@@ -490,11 +490,6 @@ function selectFuel(f) {
   tab.classList.add('selected');
   updateFuelPrice();
   updateVehicleConsDisplay();
-  if(selCat) {
-    const d=VD[selCat];
-    const models=(d.models[f]||d.models[d.default])||[];
-    document.getElementById('modelsList').innerHTML=models.map(m=>`<span class="m-tag">${m}</span>`).join('');
-  }
 }
 
 function updateFuelPrice() {
