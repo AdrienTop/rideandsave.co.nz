@@ -23,8 +23,8 @@ const VD = {
   ute:      { icon:'🛻', name:'Ute',          sub:'Ranger · Hilux · Triton',    fuels:['diesel','petrol'],  default:'diesel',  cons:{diesel:9.7,petrol:13.6},    maint:0.12,
               models:{diesel:['Ford Ranger 2.0D (9.1)','Toyota Hilux 2.8D (9.2)','Mitsubishi Triton 2.4D (9.8)','Nissan Navara 2.3D (9.1)','Isuzu D-Max 3.0D (9.3)'],petrol:['Ford Ranger V6 3.0 (14.2)','Toyota Hilux 2.7 4x2 (12.9)']}},
 
-  van:      { icon:'🚐', name:'Van',          sub:'HiAce · Carnival · Transit', fuels:['diesel'],           default:'diesel',  cons:{diesel:9.9},                maint:0.12,
-              models:{diesel:['Toyota HiAce 2.8D (9.6)','Ford Transit 2.0D (9.7)','Kia Carnival 2.2D (7.7)']}},
+  van:      { icon:'🚐', name:'Van',          sub:'HiAce · Odyssey · Transit',  fuels:['diesel','petrol'],  default:'diesel',  cons:{diesel:9.8,petrol:11.3},    maint:0.12,
+              models:{diesel:['Toyota HiAce 2.8D (10.0)','Ford Transit 2.0D (8.9)','Hyundai iLoad 2.5D (10.1)','Mercedes-Benz Sprinter 2.1D (10.4)','Nissan Caravan 2.5D (11.4)'],petrol:['Toyota HiAce petrol (13.0)','Honda Odyssey (10.4)','Toyota Estima (11.5)','Mazda MPV (10.9)','Nissan Serena (9.2)']}},
 
   hybrid:   { icon:'🔋', name:'Hybrid',       sub:'RAV4 H · Corolla H · Jazz H',fuels:['petrol'],           default:'petrol',  cons:{petrol:4.1},                maint:0.09,
               models:{petrol:['Toyota RAV4 Hybrid 2.5 (5.9)','Toyota Corolla Hybrid 1.8 (5.0)','Toyota Yaris Cross Hybrid 1.5 (4.6)','Toyota Highlander Hybrid 2.5 (6.9)','Honda Jazz e:HEV 1.5 (4.0)']}},
