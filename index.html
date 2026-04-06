@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-NZ">
 <head>
-<meta name="commission-factory-verification" content="cd5ddccde7f14e1cb61ee2c7227ecde9" />
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBG4GTP3SW"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -24,6 +22,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.ico">
 <title>Bike vs Car Calculator New Zealand — Ride &amp; Save</title>
 <meta name="description" content="See how much money you save cycling instead of driving in New Zealand. Enter your commute distance and vehicle type to calculate fuel savings, CO₂ avoided, and yearly savings — based on real NZ fuel prices and IRD rates.">
 <meta name="robots" content="index, follow">
@@ -248,7 +247,9 @@
 
 <header>
   <a href="/" style="text-decoration:none"><div class="logo">Ride<span>&</span>Save</div></a>
-  <a href="data.html" style="font-size:.8rem;color:var(--green-light);text-decoration:none;font-weight:600;border:1.5px solid var(--green-light);border-radius:20px;padding:4px 12px;transition:all .15s" onmouseover="this.style.background='rgba(34,199,110,.15)'" onmouseout="this.style.background='transparent'">Fuel data ↗</a>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <a href="data.html" style="font-size:.8rem;color:var(--green-light);text-decoration:none;font-weight:600;border:1.5px solid var(--green-light);border-radius:20px;padding:4px 12px;transition:all .15s" onmouseover="this.style.background='rgba(34,199,110,.15)'" onmouseout="this.style.background='transparent'">Fuel data ↗</a>
+  </div>
 </header>
 
 <div class="hero">
@@ -306,7 +307,7 @@
 
     <!-- Models info -->
     <div class="models-box" id="modelsBox">
-      <div class="models-title">Based on top NZ models by registrations 2021–2026 - Real world fuel consumption</div>
+      <div class="models-title">Based on top NZ models by registrations - Real world fuel consumption</div>
       <div class="models-list" id="modelsList"></div>
       <div style="margin-top:.7rem;font-size:.78rem;color:#4a5568">For more information about fuel data → <a href="data.html" style="color:var(--green);font-weight:600;text-decoration:none">View full fuel consumption table ↗</a></div>
     </div>
@@ -380,7 +381,7 @@
         <span class="c-lbl">Full car cost</span>
         <span class="c-amt" id="rIrdAmt">—</span>
         <span class="c-per" id="rCarPer">per trip · IRD-rated</span>
-        <span style="display:block;font-size:.9rem;color:rgba(224,82,82,.85);margin-top:.3rem;font-weight:500">incl. depreciation</span>
+        <a href="#car-cost-breakdown" style="display:block;font-size:.9rem;color:rgba(224,82,82,.85);margin-top:.3rem;font-weight:500;text-decoration:none;border-bottom:1px dashed rgba(224,82,82,.4)">see what it includes ↓</a>
       </div>
       <div class="cost-side fuel-side">
         <span class="c-ico">⛽</span>
@@ -417,7 +418,7 @@
 
     <!-- Cost breakdown -->
     <div class="bdown">
-      <h4>What makes up your car cost</h4>
+      <h4 id="car-cost-breakdown">What makes up your car cost</h4>
       <div class="brow"><span class="bl">IRD rate <span id="irdRateLbl" style="font-size:1em;color:var(--grey-mid);font-weight:500"></span></span><span class="bv" id="brIrd">—</span></div>
       <div class="brow" id="brParkRow" style="display:none"><span class="bl" id="brParkLbl">Parking</span><span class="bv" id="brPark">—</span></div>
       <div class="brow total"><span class="bl">Total (IRD-rated)</span><span class="bv" id="brTotal">—</span></div>
@@ -429,9 +430,7 @@
 </div>
 
 <footer>
-  Vehicle rankings and fuel consumption figures from <a href="https://www.nzta.govt.nz/resources/new-zealand-motor-vehicle-register-statistics/new-zealand-vehicle-fleet-open-data/" target="_blank">NZTA Vehicle Fleet Open Data</a> (2021–2026), averaged across all registrations per model.
-  Real-world estimates use EU Commission OBFCM data (600,000 vehicles, March 2024): +23.7% petrol, +18.1% diesel over lab figures.
-  IRD 2024–25 kilometre rates. Fuel prices from <a href="https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/weekly-fuel-price-monitoring" target="_blank">MBIE weekly data</a>. For indicative purposes only.
+  Ride &amp; Save &copy; 2026 &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a>
 </footer>
 
 <script>
