@@ -283,14 +283,16 @@
       </div>
     </div>
     <div class="wfh-row" id="wfhRow" style="display:none">
-      <span class="wfh-lbl">🏠 How many days per week do you work from home?</span>
+      <span class="wfh-lbl">🚲 How many days per week do you commute?</span>
       <div class="select-wrap">
         <select id="wfhDays">
-          <option value="0">0 - I commute every day</option>
-          <option value="1">1 day a week WFH</option>
-          <option value="2">2 days a week WFH</option>
-          <option value="3">3 days a week WFH</option>
-          <option value="4">4 days a week WFH</option>
+          <option value="1">1 day a week</option>
+          <option value="2">2 days a week</option>
+          <option value="3">3 days a week</option>
+          <option value="4">4 days a week</option>
+          <option value="5" selected>5 days a week</option>
+          <option value="6">6 days a week</option>
+          <option value="7">7 days a week</option>
         </select>
       </div>
     </div>
@@ -594,15 +596,14 @@ function calculate() {
   }
 
   // CO2
-  const yearlyTrips=isCommute?((5-(parseInt(document.getElementById('wfhDays').value)||0))*52):260;
+  const yearlyTrips=isCommute?((parseInt(document.getElementById('wfhDays').value)||5)*52):260;
   document.getElementById('co2Text').innerHTML=isEV
     ?`Electric vehicles produce no direct tailpipe emissions — biking still reduces road congestion and your household energy footprint.`
     :`By biking instead, you avoid approximately <strong>${co2kg.toFixed(2)} kg of CO₂</strong> per trip. Over a year (${yearlyTrips} trips) that's <strong>${(co2kg*yearlyTrips/1000).toFixed(1)} tonnes</strong> of CO₂ avoided.`;
 
   // Commute breakdown — uses IRD total as savings
   if(isCommute){
-    const wfhDays=parseInt(document.getElementById('wfhDays').value)||0;
-    const officeDaysPerWeek=5-wfhDays;
+    const officeDaysPerWeek=parseInt(document.getElementById('wfhDays').value)||5;
     const officeDaysPerYear=officeDaysPerWeek*52;
     const officeDaysPerMonth=officeDaysPerYear/12;
     document.getElementById('commuteSection').style.display='';
