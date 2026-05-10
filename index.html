@@ -150,6 +150,10 @@
   .wfh-row .wfh-lbl { font-size:.85rem; font-weight:500; color:var(--grey-mid); flex:1; min-width:160px; }
   .wfh-row .select-wrap { width:222px; }
 
+  .custom-cons-row { margin-top:.75rem; padding:.85rem 1.2rem; background:rgba(26,158,92,.05); border:1px solid rgba(26,158,92,.15); border-radius:10px; }
+  .phev-row { margin-top:.75rem; padding:.75rem 1.2rem; background:rgba(232,161,42,.06); border:1px solid rgba(232,161,42,.3); border-radius:10px; display:flex; align-items:center; gap:.75rem; cursor:pointer; user-select:none; }
+  .phev-row:hover { border-color:rgba(232,161,42,.6); }
+
   /* VEHICLE CARDS */
   .vehicle-grid { display:flex; flex-wrap:wrap; gap:.75rem; margin-bottom:1.2rem; justify-content:center; }
   .v-card { border:2px solid #e2e8f0; border-radius:12px; padding:.85rem .75rem; cursor:pointer; text-align:center; transition:all .15s; background:var(--white); width:158px; flex-shrink:0; }
@@ -323,6 +327,21 @@
       <div class="fuel-tab disabled" data-fuel="electric" onclick="selectFuel('electric')">Electric</div>
     </div>
 
+    <!-- Custom vehicle consumption input -->
+    <div class="custom-cons-row" id="customConsRow" style="display:none">
+      <div class="field">
+        <label id="customConsLabel">Your vehicle's real-world fuel consumption (L/100km)</label>
+        <input type="number" id="customCons" min="1" max="50" step="0.1" placeholder="e.g. 9.5">
+        <div class="hint">Enter real-world consumption if you know it, or use the <a href="data.html">fuel data table ↗</a> as a reference.</div>
+      </div>
+    </div>
+
+    <!-- PHEV checkbox (shown for Hybrid category) -->
+    <div class="phev-row" id="phevRow" style="display:none" onclick="document.getElementById('phevCheck').checked=!document.getElementById('phevCheck').checked">
+      <input type="checkbox" id="phevCheck" onclick="event.stopPropagation()" style="width:18px;height:18px;accent-color:var(--green);cursor:pointer;flex-shrink:0">
+      <span style="font-size:.85rem;font-weight:500;color:var(--grey-mid);line-height:1.45">This is a <strong>plug-in hybrid (PHEV)</strong> — Road User Charges of $38/1,000 km apply</span>
+    </div>
+
     <!-- Fuel / electricity price -->
     <div class="sec-title">Current fuel price</div>
     <div class="two-col">
@@ -391,7 +410,7 @@
         <span class="c-lbl" id="rFuelLbl" style="text-transform:none">FUEL ONLY</span>
         <span class="c-amt" id="rFuelAmt">—</span>
         <span class="c-per" id="rFuelPer">per trip</span>
-        <span style="display:block;font-size:.9rem;color:rgba(232,161,42,.9);margin-top:.3rem;font-weight:500">No maintenance or depreciation</span>
+        <span id="rFuelNote" style="display:block;font-size:.9rem;color:rgba(232,161,42,.9);margin-top:.3rem;font-weight:500">No maintenance or depreciation</span>
       </div>
     </div>
 
@@ -444,11 +463,18 @@ let isCommute=false, selCat=null, selFuel='petrol';
 // Build vehicle cards
 const grid = document.getElementById('vehicleGrid');
 Object.entries(VD).forEach(([key,d]) => {
-  const cons = d.cons[d.default];
-  const unit = key==='electric' ? 'kWh/100km' : 'L/100km';
   const div = document.createElement('div');
   div.className='v-card'; div.dataset.key=key;
-  div.innerHTML=`<span class="vi">${d.icon}</span><span class="vn">${d.name}</span><span class="vc" id="vc-${key}">${parseFloat(cons).toFixed(1)} ${unit}</span>`;
+  if(key==='custom'){
+    div.innerHTML=`<span class="vi">${d.icon}</span><span class="vn">${d.name}</span><span class="vc">${d.sub}</span>`;
+  } else if(key==='fourwd'){
+    const cons=d.cons[d.default];
+    div.innerHTML=`<span class="vi" style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:-.5px;height:1.8rem;display:flex;align-items:center;justify-content:center">4x4</span><span class="vn">${d.name}</span><span class="vc" id="vc-${key}">${parseFloat(cons).toFixed(1)} L/100km</span>`;
+  } else {
+    const cons=d.cons[d.default];
+    const unit=key==='electric'?'kWh/100km':'L/100km';
+    div.innerHTML=`<span class="vi">${d.icon}</span><span class="vn">${d.name}</span><span class="vc" id="vc-${key}">${parseFloat(cons).toFixed(1)} ${unit}</span>`;
+  }
   div.onclick=()=>selectVehicle(key);
   grid.appendChild(div);
 });
@@ -476,12 +502,18 @@ function selectVehicle(key) {
   if(defTab && !defTab.classList.contains('disabled')) defTab.classList.add('selected');
   updateFuelPrice();
   updateVehicleConsDisplay();
-  // EV fields
-  const isEV=key==='electric';
-  document.getElementById('fuelPriceField').style.display=isEV?'none':'';
-  document.getElementById('elecPriceField').style.display=isEV?'':'none';
-  // Models
-  const models=(d.models[selFuel]||d.models[d.default])||[];
+  // EV price fields
+  const showElec=key==='electric'||(key==='custom'&&selFuel==='electric');
+  document.getElementById('fuelPriceField').style.display=showElec?'none':'';
+  document.getElementById('elecPriceField').style.display=showElec?'':'none';
+  // Custom consumption row
+  document.getElementById('customConsRow').style.display=key==='custom'?'':'none';
+  if(key==='custom') updateCustomConsLabel();
+  // PHEV checkbox
+  document.getElementById('phevRow').style.display=key==='hybrid'?'':'none';
+  if(key!=='hybrid') document.getElementById('phevCheck').checked=false;
+  // Models box
+  document.getElementById('modelsBox').style.display=key==='custom'?'none':'';
 }
 
 function selectFuel(f) {
@@ -492,6 +524,17 @@ function selectFuel(f) {
   tab.classList.add('selected');
   updateFuelPrice();
   updateVehicleConsDisplay();
+  if(selCat==='custom'){
+    updateCustomConsLabel();
+    const showElec=f==='electric';
+    document.getElementById('fuelPriceField').style.display=showElec?'none':'';
+    document.getElementById('elecPriceField').style.display=showElec?'':'none';
+  }
+}
+
+function updateCustomConsLabel() {
+  const unit=selFuel==='electric'?'kWh/100km':'L/100km';
+  document.getElementById('customConsLabel').textContent=`Your vehicle's real-world fuel consumption (${unit})`;
 }
 
 function updateFuelPrice() {
@@ -500,11 +543,10 @@ function updateFuelPrice() {
 }
 
 function updateVehicleConsDisplay() {
-  if(!selCat) return;
+  if(!selCat||selCat==='custom') return;
   const d=VD[selCat];
   const cons=d.cons[selFuel]??d.cons[d.default];
-  const isEV=selCat==='electric';
-  const unit=isEV?'kWh/100km':'L/100km';
+  const unit=selCat==='electric'?'kWh/100km':'L/100km';
   document.getElementById(`vc-${selCat}`).textContent=`${parseFloat(cons).toFixed(1)} ${unit}`;
 }
 
@@ -520,10 +562,16 @@ function calculate() {
   if(!distRaw||distRaw<=0) errors.push('distance');
   if(!selCat) errors.push('vehicle');
 
+  let customCons=0;
+  if(selCat==='custom'){
+    customCons=parseFloat(document.getElementById('customCons').value);
+    if(!customCons||customCons<=0) errors.push('consumption');
+  }
+
   if(errors.length){
     if(errors.includes('distance')) document.getElementById('distErr').style.display='block';
     if(errors.includes('vehicle')) document.getElementById('vehErr').style.display='block';
-    const msgs={'distance':'enter a distance','vehicle':'select a vehicle type'};
+    const msgs={'distance':'enter a distance','vehicle':'select a vehicle type','consumption':'enter your fuel consumption'};
     const calcErr=document.getElementById('calcErr');
     calcErr.textContent='Please '+errors.map(e=>msgs[e]).join(' and ')+' before calculating.';
     calcErr.style.display='block';
@@ -531,51 +579,63 @@ function calculate() {
   }
 
   const d=VD[selCat];
-  const isEV=selCat==='electric';
+  const isElec=selFuel==='electric';
   const dist=isCommute?distRaw*2:distRaw;
 
+  // Consumption value (custom overrides VD)
+  const vCons=selCat==='custom'?customCons:(d.cons[selFuel]??d.cons[d.default]);
+
   // Fuel / energy cost
-  let fuelCost=0, fuelLbl='Fuel cost';
-  if(isEV){
+  let fuelCost=0;
+  if(isElec){
     const ep=parseFloat(document.getElementById('elecPrice').value)||0.32;
-    fuelCost=d.cons.electric/100*dist*ep;
-    fuelLbl='Electricity cost';
+    fuelCost=vCons/100*dist*ep;
   } else {
-    const cons=d.cons[selFuel]??d.cons[d.default];
     const fp=parseFloat(document.getElementById('fuelPrice').value)||3.05;
-    fuelCost=cons/100*dist*fp;
+    fuelCost=vCons/100*dist*fp;
   }
 
-  // Maintenance
-  const maint=d.maint*dist;
+  // Road User Charges — diesel: $76/1000km, plug-in hybrid: $38/1000km
+  const isPhev=selCat==='hybrid'&&document.getElementById('phevCheck').checked;
+  const ruc=selFuel==='diesel'?RUC_RATES.diesel*dist:isPhev?RUC_RATES.plugin_hybrid*dist:0;
 
   // Parking
   const pRaw=parseFloat(document.getElementById('parkingCost').value)||0;
   const pType=document.getElementById('parkingType').value;
-  let parking=0, pLbl='Parking';
+  let parking=0,pLbl='Parking';
   if(pRaw>0){
-    if(pType==='per_trip'){parking=isCommute?pRaw*2:pRaw; pLbl=isCommute?'Parking (×2 return)':'Parking (one-way)';}
-    else if(pType==='daily'){parking=pRaw; pLbl='Parking (daily rate)';}
-    else{parking=pRaw/22; pLbl=`Parking ($${pRaw}/mo ÷ 22 days)`;}
+    if(pType==='per_trip'){parking=isCommute?pRaw*2:pRaw;pLbl=isCommute?'Parking (×2 return)':'Parking (one-way)';}
+    else if(pType==='daily'){parking=pRaw;pLbl='Parking (daily rate)';}
+    else{parking=pRaw/22;pLbl=`Parking ($${pRaw}/mo ÷ 22 days)`;}
   }
 
-  // IRD-rated total — the primary savings figure (includes depreciation)
-  const irdKey=selCat==='electric'?'electric':selCat==='hybrid'?'hybrid':selFuel;
+  // IRD-rated total — primary savings figure (fuel + maintenance + depreciation)
+  const irdKey=isElec?'electric':selCat==='hybrid'?'hybrid':selFuel;
   const irdRate=IRD_RATES[irdKey]||IRD_RATES.petrol;
   const irdTotal=irdRate*dist+parking;
 
-  // Reference figures
-  const fuelOnlyTotal=fuelCost+parking;
-  const fuelMaintTotal=fuelCost+maint+parking;
+  // Fuel-only total — includes RUC for diesel/PHEV
+  const fuelOnlyTotal=fuelCost+ruc+parking;
 
   // CO2
   const co2Factor=CO2_FACTOR[selFuel]??CO2_FACTOR.petrol;
-  const co2kg=!isEV?(d.cons[selFuel]??d.cons[d.default])/100*dist*co2Factor:0;
+  const co2kg=!isElec?vCons/100*dist*co2Factor:0;
+
+  // Fuel panel label
+  const fuelParts=[];
+  if(ruc>0) fuelParts.push('RUC');
+  if(parking>0) fuelParts.push('parking');
+  document.getElementById('rFuelLbl').textContent=fuelParts.length?'FUEL + '+fuelParts.join(' + ')+(parking>0?'':' ONLY'):'FUEL ONLY';
+
+  // Fuel panel note
+  const rFuelNote=document.getElementById('rFuelNote');
+  if(ruc>0&&selFuel==='diesel') rFuelNote.textContent='Incl. $76/1,000 km RUC';
+  else if(ruc>0) rFuelNote.textContent='Incl. $38/1,000 km PHEV RUC';
+  else rFuelNote.textContent='No maintenance or depreciation';
 
   // Populate results
   document.getElementById('rIrdAmt').textContent=fmt(irdTotal);
   document.getElementById('rCarPer').textContent=isCommute?'per return trip · IRD-rated':'per trip · IRD-rated';
-  document.getElementById('rFuelLbl').textContent=parking>0?'FUEL + parking':'FUEL ONLY';
   document.getElementById('rFuelAmt').textContent=fmt(fuelOnlyTotal);
   document.getElementById('rFuelPer').textContent=isCommute?'per return trip':'per trip';
   document.getElementById('rSaveAmt').textContent=fmt(irdTotal);
@@ -597,7 +657,7 @@ function calculate() {
 
   // CO2
   const yearlyTrips=isCommute?((parseInt(document.getElementById('wfhDays').value)||5)*52):260;
-  document.getElementById('co2Text').innerHTML=isEV
+  document.getElementById('co2Text').innerHTML=isElec
     ?`Electric vehicles produce no direct tailpipe emissions — biking still reduces road congestion and your household energy footprint.`
     :`By biking instead, you avoid approximately <strong>${co2kg.toFixed(2)} kg of CO₂</strong> per trip. Over a year (${yearlyTrips} trips) that's <strong>${(co2kg*yearlyTrips/1000).toFixed(1)} tonnes</strong> of CO₂ avoided.`;
 

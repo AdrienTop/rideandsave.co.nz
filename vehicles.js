@@ -20,6 +20,9 @@ const VD = {
   large_suv:{ icon:'🚙', name:'Large SUV',    sub:'Outlander · CX-5 · Sportage',fuels:['petrol','diesel'],  default:'petrol',  cons:{petrol:9.5,diesel:8.7},     maint:0.10,
               models:{petrol:['Mitsubishi Outlander 2.5 (9.4)','Mazda CX-5 2.5 (9.3)','Nissan X-Trail 1.5T (9.9)','Kia Sportage 1.6T (9.7)','Subaru Outback 2.5 (9.3)'],diesel:['Ford Everest 2.0D (9.1)','Hyundai Santa Fe 2.2D (7.2)','Kia Sorento 2.2D (7.2)','Kia Sportage 2.0D (7.4)','Toyota Fortuner 2.8D (9.0)']}},
 
+  fourwd:   { icon:'4x4', name:'4WD',  sub:'LandCruiser · Prado · Pajero', fuels:['diesel','petrol'], default:'diesel',  cons:{diesel:10.6,petrol:12.4},   maint:0.11,
+              models:{diesel:['Toyota LandCruiser (11.2)','Toyota Prado (10.0)','Mitsubishi Pajero (11.3)','Mitsubishi Pajero Sport (9.4)','Isuzu MU-X (9.6)'],petrol:['Suzuki Jimny (8.4)','Suzuki Grand Vitara (12.0)','Mitsubishi Pajero (15.0)','Jeep Grand Cherokee (14.9)','Toyota LandCruiser (15.9)']}},
+
   ute:      { icon:'🛻', name:'Ute',          sub:'Ranger · Hilux · Triton',    fuels:['diesel','petrol'],  default:'diesel',  cons:{diesel:9.7,petrol:13.6},    maint:0.12,
               models:{diesel:['Ford Ranger 2.0D (9.1)','Toyota Hilux 2.8D (9.2)','Mitsubishi Triton 2.4D (9.8)','Nissan Navara 2.3D (9.1)','Isuzu D-Max 3.0D (9.3)'],petrol:['Ford Ranger V6 3.0 (14.2)','Toyota Hilux 2.7 4x2 (12.9)']}},
 
@@ -31,6 +34,9 @@ const VD = {
 
   electric: { icon:'⚡', name:'Electric',     sub:'Model Y · Atto 3 · MG ZS',  fuels:['electric'],         default:'electric', cons:{electric:17.5},            maint:0.04,
               models:{electric:['Tesla Model Y (17.0 kWh)','BYD Atto 3 (17.6 kWh)','MG ZS EV (18.2 kWh)','Hyundai Kona EV (17.9 kWh)','MG 4 (17.1 kWh)']}},
+
+  custom:   { icon:'✏️', name:'Custom',       sub:'Your consumption',              fuels:['petrol','diesel','electric'], default:'petrol', cons:{petrol:0,diesel:0,electric:0}, maint:0.08,
+              models:{} },
 };
 
 // CO2 emission factors by fuel type (kg CO2 per litre burned)
@@ -40,3 +46,6 @@ const CO2_FACTOR = { petrol: 2.310, diesel: 2.640, electric: 0 };
 // IRD 2024–25 mileage reimbursement rates ($/km), tier 1 (up to 14,000 km/yr)
 // These bundle fuel + maintenance + depreciation into one flat rate
 const IRD_RATES = { petrol: 1.17, diesel: 1.26, hybrid: 0.86, electric: 1.08 };
+
+// Road User Charges ($/km) — applies to diesel and plug-in hybrids
+const RUC_RATES = { diesel: 0.076, plugin_hybrid: 0.038 };
