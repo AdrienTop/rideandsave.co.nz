@@ -261,7 +261,7 @@
   <div class="hero-eyebrow">Bike vs Car Calculator</div>
   <div style="max-width:832px;margin:0 auto"><h1>See how much you save by choosing the <em>bike</em></h1></div>
   <p>Find out how much you could keep in your pocket by swapping your car for a bike.</p>
-  <div class="fuel-alert">⚠️ 91 petrol now averaging $3.40+ per litre nationwide — savings have never been bigger</div>
+  <div class="fuel-alert">⚠️ 91 petrol now averaging $3.41+ per litre nationwide — savings have never been bigger</div>
 </div>
 
 <div style="max-width:880px;margin:0 auto;padding:1.5rem 1.5rem 0;font-size:.88rem;color:var(--grey-mid);line-height:1.7;padding-bottom:0rem">
@@ -349,11 +349,11 @@
         <label>Fuel price ($/L)</label>
         <div class="input-prefix">
           <span class="pfx">$</span>
-          <input type="number" id="fuelPrice" min="0.5" step="0.01" value="3.40">
+          <input type="number" id="fuelPrice" min="0.5" step="0.01" value="3.41">
         </div>
         <!-- UPDATE: change the week-ending date below each time MBIE publishes new data -->
         <div class="hint">
-          <span class="live-dot"></span>Pre-filled with current avg from <a href="https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/weekly-fuel-price-monitoring" target="_blank">the Ministry of Business, Innovation and Employment (MBIE)</a> <br>(w/e 01 Jun 2026).
+          <span class="live-dot"></span>Pre-filled with current avg from <a href="https://www.mbie.govt.nz/building-and-energy/energy-and-natural-resources/energy-statistics-and-modelling/energy-statistics/weekly-fuel-price-monitoring" target="_blank">the Ministry of Business, Innovation and Employment (MBIE)</a> <br>(w/e 08 Jun 2026).
         </div>
       </div>
       <div class="field" id="elecPriceField" style="display:none">
@@ -538,8 +538,8 @@ function updateCustomConsLabel() {
 }
 
 function updateFuelPrice() {
-  if(selFuel==='petrol') document.getElementById('fuelPrice').value='3.40';
-  if(selFuel==='diesel') document.getElementById('fuelPrice').value='3.18';
+  if(selFuel==='petrol') document.getElementById('fuelPrice').value='3.41';
+  if(selFuel==='diesel') document.getElementById('fuelPrice').value='3.17';
 }
 
 function updateVehicleConsDisplay() {
@@ -588,10 +588,10 @@ function calculate() {
   // Fuel / energy cost
   let fuelCost=0;
   if(isElec){
-    const ep=parseFloat(document.getElementById('elecPrice').value)||3.40;
+    const ep=parseFloat(document.getElementById('elecPrice').value)||3.41;
     fuelCost=vCons/100*dist*ep;
   } else {
-    const fp=parseFloat(document.getElementById('fuelPrice').value)||3.40;
+    const fp=parseFloat(document.getElementById('fuelPrice').value)||3.41;
     fuelCost=vCons/100*dist*fp;
   }
 
